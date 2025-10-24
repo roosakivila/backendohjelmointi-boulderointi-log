@@ -21,8 +21,7 @@ public class User {
     private String password;
     private String role;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
-    @JsonIgnoreProperties("project")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Project> projects;
 
     public User() {

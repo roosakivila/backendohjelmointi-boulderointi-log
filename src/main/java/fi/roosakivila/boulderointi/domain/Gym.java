@@ -21,8 +21,8 @@ public class Gym {
     private String name;
     private String city;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "route")
-    @JsonIgnoreProperties("route")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gym")
+    @JsonIgnoreProperties("gym")
     private List<Route> routes;
 
     public Gym() {

@@ -23,7 +23,7 @@ public class Route {
     private String grade;
 
     @ManyToOne
-    @JsonIgnoreProperties("gyms")
+    @JsonIgnoreProperties("routes")
     @JoinColumn(name = "gymId")
     private Gym gym;
 
