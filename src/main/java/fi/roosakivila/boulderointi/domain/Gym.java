@@ -1,9 +1,15 @@
 package fi.roosakivila.boulderointi.domain;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Gym {
@@ -14,6 +20,10 @@ public class Gym {
 
     private String name;
     private String city;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "route")
+    @JsonIgnoreProperties("route")
+    private List<Route> routes;
 
     public Gym() {
 
@@ -46,6 +56,14 @@ public class Gym {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public List<Route> getRoutes() {
+        return routes;
+    }
+
+    public void setRoutes(List<Route> routes) {
+        this.routes = routes;
     }
 
     @Override

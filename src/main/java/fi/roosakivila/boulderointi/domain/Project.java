@@ -1,11 +1,17 @@
 package fi.roosakivila.boulderointi.domain;
 
+import java.util.Locale.Category;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Project {
@@ -20,14 +26,26 @@ public class Project {
     private int attempts;
     private String notes;
 
+    @ManyToOne
+    @JsonIgnoreProperties("projects")
+    @JoinColumn(name = "userId")
+    private User user;
+
+    @ManyToOne
+    @JsonIgnoreProperties("routes")
+    @JoinColumn(name = "routeId")
+    private Route route;
+
     public Project() {
 
     }
 
-    public Project(Status status, int attempts, String notes) {
+    public Project(Status status, int attempts, String notes, User user, Route route) {
         this.status = status;
         this.attempts = attempts;
         this.notes = notes;
+        this.user = user;
+        this.route = route;
     }
 
     public Long getProjectId() {
@@ -62,10 +80,26 @@ public class Project {
         this.notes = notes;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+
     @Override
     public String toString() {
         return "Project [projectId=" + projectId + ", status=" + status + ", attempts=" + attempts + ", notes=" + notes
-                + "]";
+                + ", user=" + user + ", route=" + route + "]";
     }
 
 }

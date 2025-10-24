@@ -1,9 +1,15 @@
 package fi.roosakivila.boulderointi.domain;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class User {
@@ -15,6 +21,10 @@ public class User {
     private String password;
     private String role;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
+    @JsonIgnoreProperties("project")
+    private List<Project> projects;
+
     public User() {
 
     }
@@ -25,11 +35,11 @@ public class User {
         this.role = role;
     }
 
-    public Long getId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setId(Long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -55,6 +65,14 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
     }
 
     @Override
