@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" /> 
+    <title>Routelist</title>
+</head>
+<body style="margin: 20px;">
+    <h1>Routes</h1>
+   
+    <table class="table table-striped">
+  <tr>
+   <th>Name</th>
+   <th>Grade</th>
+   <th>Gym</th>
+  </tr>
+     <tr th:each = "route : ${routes}">
+       <td th:text="${route.name}"></td>
+       <td th:text="${route.grade}"></td>
+       <td th:text="${route.gym.name}"></td>
+     </tr>
+</table>
+</body>
+</html>
