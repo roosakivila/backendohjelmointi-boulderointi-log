@@ -14,12 +14,18 @@
    <th>Name</th>
    <th>Grade</th>
    <th>Gym</th>
+   <th></th>
+   <th></th>
   </tr>
      <tr th:each = "route : ${routes}">
        <td th:text="${route.name}"></td>
        <td th:text="${route.grade}"></td>
        <td th:text="${route.gym.name}"></td>
+        <td><a th:href="@{/delete/{id}(id=${route.routeId})}" class="btn btn-danger">Delete</a></td>
+       <td><a th:href="@{/edit/{id}(id=${route.routeId})}" class="btn btn-primary">Edit</a></td>
+     </tr>
      </tr>
 </table>
+  <a href="/addroute" class="btn btn-success">Add Route</a>
 </body>
 </html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	 <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+    <title>Add route</title>
+</head>
+<body>
+	<div class="container mt-5">
+		<div class="card shadow-sm p-4">
+    <h1>Add route</h1>
+<form th:object="${route}" th:action="@{saveroute}" action="#" method="post">
+	<div class="mb-3">
+	<label for="name" class="form-label">Name:</label>
+	<input type="text" class="form-control" id="name" th:field="*{name}" />
+	</div>
+	<div class="mb-3">
+	<label for="grade" class="form-label">Grade:</label>
+	<input type="text" class="form-control" id="grade" th:field="*{grade}" />
+	</div>
+	<div class="mb-3">
+	<label for="gymlist" class="form-label">Gym:</label>
+	<select id="gymlist" class="form-select" th:field="*{gym}">
+	<option th:each="gym: ${gyms}"
+		th:value="${gym.gymId}"
+		th:text="${gym.name}"></option>
+	</select>
+	</div>
+	
+	<input type="submit" value="Save" class="btn btn-success"></input>
+</form>
+</div>
+</div>
+    
+</body>
+</html>
