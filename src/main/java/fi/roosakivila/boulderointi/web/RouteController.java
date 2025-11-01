@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class RouteController {
@@ -31,17 +32,23 @@ public class RouteController {
 
     // Add route
     @RequestMapping("/addroute")
-    public String addRoute(Model model) {
+    public String addRoute(@RequestParam(value = "redirect", required = false) String redirectUrl, Model model) {
         model.addAttribute("route", new Route());
         model.addAttribute("gyms", gymRepository.findAll());
+        if (redirectUrl != null) {
+            model.addAttribute("redirectUrl", redirectUrl);
+        }
         return "addroute"; // addroute.html
     }
 
     // Save route
     @PostMapping("/saveroute")
-    public String saveRoute(Route route) {
+    public String saveRoute(Route route, @RequestParam(value = "redirectUrl", required = false) String redirectUrl) {
         routeRepository.save(route);
-        return "redirect:routelist";
+        if (redirectUrl != null && !redirectUrl.isEmpty()) {
+            return "redirect:" + redirectUrl;
+        }
+        return "redirect:/routelist";
     }
 
     // Delete route

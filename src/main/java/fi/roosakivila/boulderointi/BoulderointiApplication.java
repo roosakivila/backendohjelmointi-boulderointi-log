@@ -1,5 +1,7 @@
 package fi.roosakivila.boulderointi;
 
+import java.io.ObjectInputFilter.Status;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -9,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 
 import fi.roosakivila.boulderointi.domain.Gym;
 import fi.roosakivila.boulderointi.domain.GymRepository;
+import fi.roosakivila.boulderointi.domain.Project;
 import fi.roosakivila.boulderointi.domain.ProjectRepository;
 import fi.roosakivila.boulderointi.domain.Route;
 import fi.roosakivila.boulderointi.domain.RouteRepository;

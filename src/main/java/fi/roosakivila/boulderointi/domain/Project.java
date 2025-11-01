@@ -1,7 +1,5 @@
 package fi.roosakivila.boulderointi.domain;
 
-import java.util.Locale.Category;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
