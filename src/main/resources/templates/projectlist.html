@@ -27,8 +27,8 @@
        <td th:text="${project.status}"></td>
        <td th:text="${project.attempts}"></td>
        <td th:text="${project.notes}"></td>
-        <!-- <td><a th:href="@{/delete/{id}(id=${route.routeId})}" class="btn btn-danger">Delete</a></td>
-       <td><a th:href="@{/edit/{id}(id=${route.routeId})}" class="btn btn-primary">Edit</a></td> -->
+        <td><a th:href="@{/deleteproject/{id}(id=${project.projectId})}" class="btn btn-danger">Delete</a></td>
+       <td><a th:href="@{/editproject/{id}(id=${project.projectId})}" class="btn btn-primary">Edit</a></td>
      </tr>
      </tr>
 </table>

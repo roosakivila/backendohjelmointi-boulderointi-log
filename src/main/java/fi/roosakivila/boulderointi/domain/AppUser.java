@@ -12,7 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class User {
+public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,14 +21,14 @@ public class User {
     private String password;
     private String role;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "appuser")
     private List<Project> projects;
 
-    public User() {
+    public AppUser() {
 
     }
 
-    public User(String username, String password, String role) {
+    public AppUser(String username, String password, String role) {
         this.username = username;
         this.password = password;
         this.role = role;

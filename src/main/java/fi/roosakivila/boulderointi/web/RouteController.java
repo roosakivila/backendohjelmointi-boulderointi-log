@@ -60,7 +60,7 @@ public class RouteController {
 
     //  Edit route
     @GetMapping("/edit/{id}")
-    public String modifyBook(@PathVariable("id") Long id, Model model) {
+    public String modifyRoute(@PathVariable("id") Long id, Model model) {
         Route route = routeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid route Id:" + id));
         model.addAttribute("route", route);

@@ -27,7 +27,7 @@ public class Project {
     @ManyToOne
     @JsonIgnoreProperties("projects")
     @JoinColumn(name = "userId")
-    private User user;
+    private AppUser appuser;
 
     @ManyToOne
     @JsonIgnoreProperties("routes")
@@ -38,11 +38,11 @@ public class Project {
 
     }
 
-    public Project(Status status, int attempts, String notes, User user, Route route) {
+    public Project(Status status, int attempts, String notes, AppUser user, Route route) {
         this.status = status;
         this.attempts = attempts;
         this.notes = notes;
-        this.user = user;
+        this.appuser = user;
         this.route = route;
     }
 
@@ -78,12 +78,12 @@ public class Project {
         this.notes = notes;
     }
 
-    public User getUser() {
-        return user;
+    public AppUser getAppuser() {
+        return appuser;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setAppuser(AppUser user) {
+        this.appuser = user;
     }
 
     public Route getRoute() {
@@ -97,7 +97,7 @@ public class Project {
     @Override
     public String toString() {
         return "Project [projectId=" + projectId + ", status=" + status + ", attempts=" + attempts + ", notes=" + notes
-                + ", user=" + user + ", route=" + route + "]";
+                + ", user=" + appuser + ", route=" + route + "]";
     }
 
 }

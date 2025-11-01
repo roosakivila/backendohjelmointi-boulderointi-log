@@ -3,6 +3,7 @@ package fi.roosakivila.boulderointi.web;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -50,6 +51,26 @@ public class ProjectController {
     public String saveProject(Project project) {
         projectRepository.save(project);
         return "redirect:projectlist";
+    }
+
+    // Delete project
+    @GetMapping("/deleteproject/{id}")
+    public String deleteProject(@PathVariable("id") Long id, Model model) {
+        projectRepository.deleteById(id);
+        return "redirect:../projectlist";
+    }
+
+    // Edit project
+    @GetMapping("/editproject/{id}")
+    public String modifyProject(@PathVariable("id") Long id, Model model) {
+        Project project = projectRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid route Id:" + id));
+        model.addAttribute("project", project);
+        model.addAttribute("statuses", Status.values());
+        model.addAttribute("route", new Route());
+        model.addAttribute("routes", routeRepository.findAll());
+        model.addAttribute("gyms", gymRepository.findAll());
+        return "editproject"; // editproject.html
     }
 
 }
