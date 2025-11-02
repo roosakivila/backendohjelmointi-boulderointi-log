@@ -1,7 +1,5 @@
 package fi.roosakivila.boulderointi;
 
-import java.io.ObjectInputFilter.Status;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -9,13 +7,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import fi.roosakivila.boulderointi.domain.AppUser;
 import fi.roosakivila.boulderointi.domain.Gym;
 import fi.roosakivila.boulderointi.domain.GymRepository;
-import fi.roosakivila.boulderointi.domain.Project;
 import fi.roosakivila.boulderointi.domain.ProjectRepository;
 import fi.roosakivila.boulderointi.domain.Route;
 import fi.roosakivila.boulderointi.domain.RouteRepository;
-import fi.roosakivila.boulderointi.domain.UserRepository;
+import fi.roosakivila.boulderointi.domain.AppUserRepository;
 
 @SpringBootApplication
 public class BoulderointiApplication {
@@ -28,7 +26,7 @@ public class BoulderointiApplication {
 
 	@Bean
 	public CommandLineRunner boulderingDemo(RouteRepository routeRepository, ProjectRepository projectRepository,
-			GymRepository gymRepository, UserRepository userRepository) {
+			GymRepository gymRepository, AppUserRepository userRepository) {
 		return (args) -> {
 			log.info("save few routes");
 			Gym gym1 = new Gym("KiipeilyAreena", "Helsinki");
@@ -41,6 +39,14 @@ public class BoulderointiApplication {
 			routeRepository.save(new Route("Korneri keltainen slab", "6C", gym1));
 			routeRepository.save(new Route("Monttu sininen sloper", "7A", gym2));
 			routeRepository.save(new Route("Panoraama pinkki crimp", "6B+", gym3));
+
+			// Create users
+
+			AppUser user1 = new AppUser("user", "$2a$10$odocGzTtQkGVox4vnUEVGubYQqQecy.GRDz0G4ZigSTGsvu0UEFDq", "USER");
+			AppUser user2 = new AppUser("admin", "$2a$10$MD3Soxh4u1XeKaPvm0rUlux5GzKhih2E.M3SSBme0Z2u09dGKEnse",
+					"ADMIN");
+			userRepository.save(user1);
+			userRepository.save(user2);
 
 			log.info("fetch all routes");
 			for (Route route : routeRepository.findAll()) {

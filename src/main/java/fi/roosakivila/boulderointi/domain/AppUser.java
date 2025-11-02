@@ -2,23 +2,29 @@ package fi.roosakivila.boulderointi.domain;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
-@Entity
+@Entity(name = "users")
 public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userId", nullable = false, updatable = false)
     private Long userId;
+
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
-    private String password;
+
+    @Column(name = "password", nullable = false)
+    private String passwordHash;
+
+    @Column(name = "role", nullable = false)
     private String role;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "appuser")
@@ -30,7 +36,7 @@ public class AppUser {
 
     public AppUser(String username, String password, String role) {
         this.username = username;
-        this.password = password;
+        this.passwordHash = password;
         this.role = role;
     }
 
@@ -50,12 +56,12 @@ public class AppUser {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String password) {
+        this.passwordHash = password;
     }
 
     public String getRole() {
@@ -76,7 +82,8 @@ public class AppUser {
 
     @Override
     public String toString() {
-        return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", role=" + role + "]";
+        return "User [userId=" + userId + ", username=" + username + ", password=" + passwordHash + ", role=" + role
+                + "]";
     }
 
 }
