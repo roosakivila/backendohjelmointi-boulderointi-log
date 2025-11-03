@@ -23,6 +23,12 @@ public class RouteController {
         this.gymRepository = gymRepository;
     }
 
+    // Redirect home to routelist
+    @GetMapping("/")
+    public String home() {
+        return "redirect:/routelist";
+    }
+
     // Get routelist
     @GetMapping("/routelist")
     public String routeList(Model model) {

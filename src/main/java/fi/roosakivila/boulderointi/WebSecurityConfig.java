@@ -21,7 +21,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/css/**").permitAll() // Enable css when logged out
+                        .requestMatchers("/", "/routelist", "/login", "/signup", "/css/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(formlogin -> formlogin
                         .defaultSuccessUrl("/routelist", true)
