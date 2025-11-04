@@ -22,12 +22,12 @@
     <tr th:each="gym : ${gyms}">
       <td th:text="${gym.name}"></td>
       <td th:text="${gym.city}"></td>
-      <td><a th:href="@{/deletegym/{id}(id=${gym.gymId})}" class="btn btn-danger">Delete</a></td>
-      <td><a th:href="@{/editgym/{id}(id=${gym.gymId})}" class="btn btn-primary">Edit</a></td>
+      <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/deletegym/{id}(id=${gym.gymId})}" class="btn btn-danger">Delete</a></td>
+      <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/editgym/{id}(id=${gym.gymId})}" class="btn btn-primary">Edit</a></td>
     </tr>
     </tr>
   </table>
-  <a href="/addgym" class="btn btn-success">Add Gym</a>
+  <a sec:authorize="hasAuthority('ADMIN')" href="/addgym" class="btn btn-success">Add Gym</a>
 </body>
 
 </html>

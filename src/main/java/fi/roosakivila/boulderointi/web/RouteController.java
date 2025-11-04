@@ -1,5 +1,6 @@
 package fi.roosakivila.boulderointi.web;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -59,6 +60,7 @@ public class RouteController {
 
     // Delete route
     @GetMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String deleteRoute(@PathVariable("id") Long id, Model model) {
         routeRepository.deleteById(id);
         return "redirect:../routelist";
@@ -66,6 +68,7 @@ public class RouteController {
 
     //  Edit route
     @GetMapping("/edit/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String modifyRoute(@PathVariable("id") Long id, Model model) {
         Route route = routeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid route Id:" + id));

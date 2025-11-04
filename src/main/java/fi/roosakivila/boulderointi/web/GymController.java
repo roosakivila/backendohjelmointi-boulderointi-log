@@ -1,5 +1,6 @@
 package fi.roosakivila.boulderointi.web;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,7 @@ public class GymController {
 
     // Add gym
     @RequestMapping("/addgym")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String addGym(Model model) {
         model.addAttribute("gym", new Gym());
         return "addgym"; // addgym.html
@@ -42,6 +44,7 @@ public class GymController {
 
     // Delete gym
     @GetMapping("/deletegym/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String deleteGym(@PathVariable("id") Long id, Model model) {
         gymRepository.deleteById(id);
         return "redirect:../gymlist";
@@ -49,6 +52,7 @@ public class GymController {
 
     //  Edit gym
     @GetMapping("/editgym/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String modifyGym(@PathVariable("id") Long id, Model model) {
         Gym gym = gymRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid gym Id:" + id));

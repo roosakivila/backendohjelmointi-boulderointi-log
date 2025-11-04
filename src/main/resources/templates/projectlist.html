@@ -21,6 +21,7 @@
       <th>Status</th>
       <th>Attempts</th>
       <th>Notes</th>
+      <th th:if="${isAdmin}">User</th>
       <th></th>
       <th></th>
     </tr>
@@ -31,6 +32,7 @@
       <td th:text="${project.status}"></td>
       <td th:text="${project.attempts}"></td>
       <td th:text="${project.notes}"></td>
+      <td th:if="${isAdmin}" th:text="${project.appuser.username}"></td>
       <td><a th:href="@{/deleteproject/{id}(id=${project.projectId})}" class="btn btn-danger">Delete</a></td>
       <td><a th:href="@{/editproject/{id}(id=${project.projectId})}" class="btn btn-primary">Edit</a></td>
     </tr>

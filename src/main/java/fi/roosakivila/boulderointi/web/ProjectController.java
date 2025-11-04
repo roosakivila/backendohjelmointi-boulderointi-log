@@ -34,8 +34,19 @@ public class ProjectController {
 
     // GET projects
     @GetMapping("/projectlist")
-    public String projectList(Model model) {
-        model.addAttribute("projects", projectRepository.findAll());
+    public String projectList(Model model, java.security.Principal principal) {
+        AppUser currentUser = appUserRepository.findByUsername(principal.getName());
+        
+        if (currentUser.getRole().equals("ADMIN")) {
+            // Admin sees all projects
+            model.addAttribute("projects", projectRepository.findAll());
+            model.addAttribute("isAdmin", true);
+        } else {
+            // Regular users see only their own projects
+            model.addAttribute("projects", projectRepository.findByAppuser_UserId(currentUser.getUserId()));
+            model.addAttribute("isAdmin", false);
+        }
+        
         return "projectlist"; // projectlist.html
     }
 

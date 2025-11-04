@@ -26,9 +26,9 @@
       <td th:text="${route.name}"></td>
       <td th:text="${route.grade}"></td>
       <td th:text="${route.gym.name}"></td>
-      <td sec:authorize="isAuthenticated()"><a th:href="@{/delete/{id}(id=${route.routeId})}"
+      <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/delete/{id}(id=${route.routeId})}"
           class="btn btn-danger">Delete</a></td>
-      <td sec:authorize="isAuthenticated()"><a th:href="@{/edit/{id}(id=${route.routeId})}"
+      <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/edit/{id}(id=${route.routeId})}"
           class="btn btn-primary">Edit</a></td>
     </tr>
     </tr>
