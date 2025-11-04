@@ -1,47 +1,48 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
     <title>Edit project</title>
 </head>
+
 <body>
+    <div th:replace="fragments :: siteHeader"></div>
     <div class="container mt-5">
         <div class="card shadow-sm p-4">
-    <h1>Edit Project</h1>
-    <form th:object="${project}" th:action="@{../saveproject}" method="post">
-    <div class="mb-3">
-    <input type="hidden" th:field="*{projectId}" />
-	<label for="routelist" class="form-label">Route name:</label>
-	<select id="routelist" class="form-select" th:field="*{route}">
-	<option th:each="route : ${routes}"
-		th:value="${route.routeId}"
-		th:text="${route.name}"></option>
-	</select>
-	</div>
-    <div><a href="/addroute" class="btn btn-success">Add Route</a></div>
-	<div class="mb-3">
-    <label for="statuslist" class="form-label">Status:</label>
-    <select id="statuslist" class="form-select" th:field="*{status}">
-        <option th:each="st : ${statuses}"
-                th:value="${st.name()}"
-                th:text="${st}">
-        </option>
-    </select>
-</div>
-	<div class="mb-3">
-	<label for="attempts" class="form-label">Attempts:</label>
-	<input type="number" class="form-control" id="attempts" th:field="*{attempts}" />
-	</div>
-	<div class="mb-3">
-	<label for="notes" class="form-label">Notes:</label>
-	<input type="text" class="form-control" id="notes" th:field="*{notes}" />
-	</div>
-	
-	<input type="submit" value="Save" class="btn btn-success"></input>
-    </form>
-    </div>
+            <h1>Edit Project</h1>
+            <form th:object="${project}" th:action="@{../saveproject}" method="post">
+                <div class="mb-3">
+                    <input type="hidden" th:field="*{projectId}" />
+                    <label for="routelist" class="form-label">Route name:</label>
+                    <select id="routelist" class="form-select" th:field="*{route}">
+                        <option th:each="route : ${routes}" th:value="${route.routeId}" th:text="${route.name}">
+                        </option>
+                    </select>
+                </div>
+                <div><a href="/addroute" class="btn btn-success">Add Route</a></div>
+                <div class="mb-3">
+                    <label for="statuslist" class="form-label">Status:</label>
+                    <select id="statuslist" class="form-select" th:field="*{status}">
+                        <option th:each="st : ${statuses}" th:value="${st.name()}" th:text="${st}">
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="attempts" class="form-label">Attempts:</label>
+                    <input type="number" class="form-control" id="attempts" th:field="*{attempts}" />
+                </div>
+                <div class="mb-3">
+                    <label for="notes" class="form-label">Notes:</label>
+                    <input type="text" class="form-control" id="notes" th:field="*{notes}" />
+                </div>
+
+                <input type="submit" value="Save" class="btn btn-success"></input>
+            </form>
+        </div>
     </div>
 </body>
+
 </html>

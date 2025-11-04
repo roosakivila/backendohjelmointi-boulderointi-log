@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import fi.roosakivila.boulderointi.domain.AppUser;
+import fi.roosakivila.boulderointi.domain.AppUserRepository;
 import fi.roosakivila.boulderointi.domain.GymRepository;
 import fi.roosakivila.boulderointi.domain.Project;
 import fi.roosakivila.boulderointi.domain.ProjectRepository;
@@ -20,12 +22,14 @@ public class ProjectController {
     private ProjectRepository projectRepository;
     private RouteRepository routeRepository;
     private GymRepository gymRepository;
+    private AppUserRepository appUserRepository;
 
     public ProjectController(ProjectRepository projectRepository,
-            RouteRepository routeRepository, GymRepository gymRepository) {
+            RouteRepository routeRepository, GymRepository gymRepository, AppUserRepository appUserRepository) {
         this.projectRepository = projectRepository;
         this.routeRepository = routeRepository;
         this.gymRepository = gymRepository;
+        this.appUserRepository = appUserRepository;
     }
 
     // GET projects
@@ -48,7 +52,9 @@ public class ProjectController {
 
     // Save project
     @PostMapping("/saveproject")
-    public String saveProject(Project project) {
+    public String saveProject(Project project, java.security.Principal principal) {
+        AppUser user = appUserRepository.findByUsername(principal.getName());
+        project.setAppuser(user);
         projectRepository.save(project);
         return "redirect:projectlist";
     }

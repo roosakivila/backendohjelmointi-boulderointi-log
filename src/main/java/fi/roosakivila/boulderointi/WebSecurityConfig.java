@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig {
@@ -22,7 +24,13 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/", "/routelist", "/login", "/signup", "/css/**").permitAll()
+                        .requestMatchers(toH2Console()).permitAll()
                         .anyRequest().authenticated())
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers(toH2Console()))
+                .headers(headers -> headers
+                        .frameOptions(frameoptions -> frameoptions
+                                .disable()))
                 .formLogin(formlogin -> formlogin
                         .defaultSuccessUrl("/routelist", true)
                         .permitAll())

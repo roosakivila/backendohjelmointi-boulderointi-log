@@ -5,5 +5,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
 public interface ProjectRepository extends CrudRepository<Project, Long> {
-
+    // findby tietynkäyttäjän projektit
 }

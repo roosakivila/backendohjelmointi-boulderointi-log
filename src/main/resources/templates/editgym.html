@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
     <title>Edit gym</title>
 </head>
+
 <body>
+    <div th:replace="fragments :: siteHeader"></div>
     <div class="container mt-5">
         <div class="card shadow-sm p-4">
-    <h1>Edit Gym</h1>
-    <form th:object="${gym}" th:action="@{../savegym}" method="post">
-    <div class="mb-3">
-    <input type="hidden" th:field="*{gymId}" />
-    <label for="name" class="form-label">Name:</label>
-    <input type="text" class="form-control" id="name" th:field="*{name}" />
-    </div>
-    <div class="mb-3">
-    <label for="city" class="form-label">City:</label>
-    <input type="text" class="form-control" id="city" th:field="*{city}" />
-    </div>
-    <input type="submit" value="Save" class="btn btn-success"/>
-    </form>
-    </div>
+            <h1>Edit Gym</h1>
+            <form th:object="${gym}" th:action="@{../savegym}" method="post">
+                <div class="mb-3">
+                    <input type="hidden" th:field="*{gymId}" />
+                    <label for="name" class="form-label">Name:</label>
+                    <input type="text" class="form-control" id="name" th:field="*{name}" />
+                </div>
+                <div class="mb-3">
+                    <label for="city" class="form-label">City:</label>
+                    <input type="text" class="form-control" id="city" th:field="*{city}" />
+                </div>
+                <input type="submit" value="Save" class="btn btn-success" />
+            </form>
+        </div>
     </div>
 </body>
+
 </html>
