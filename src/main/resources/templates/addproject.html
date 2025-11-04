@@ -21,7 +21,7 @@
 						</option>
 					</select>
 				</div>
-				<div><a href="/addroute" class="btn btn-success">Add Route</a></div>
+				<div><a th:href="@{/addroute(redirect='/addproject')}" class="btn btn-success">Add Route</a></div>
 				<div class="mb-3">
 					<label for="statuslist" class="form-label">Status:</label>
 					<select id="statuslist" class="form-select" th:field="*{status}">
@@ -31,11 +31,19 @@
 				</div>
 				<div class="mb-3">
 					<label for="attempts" class="form-label">Attempts:</label>
-					<input type="number" class="form-control" id="attempts" th:field="*{attempts}" />
+					<input type="number" class="form-control" id="attempts" th:field="*{attempts}" 
+					th:class="${#fields.hasErrors('attempts')} ? 'form-control is-invalid' : 'form-control'"/>
+					<div class="invalid-feedback" th:if="${#fields.hasErrors('attempts')}">
+                <span th:errors="*{attempts}">Attempts errors</span>
+            </div>
 				</div>
 				<div class="mb-3">
 					<label for="notes" class="form-label">Notes:</label>
-					<input type="text" class="form-control" id="notes" th:field="*{notes}" />
+					<input type="text" class="form-control" id="notes" th:field="*{notes}" 
+					th:class="${#fields.hasErrors('notes')} ? 'form-control is-invalid' : 'form-control'"/>
+					<div class="invalid-feedback" th:if="${#fields.hasErrors('notes')}">
+                <span th:errors="*{notes}">Notes errors</span>
+            </div>
 				</div>
 
 				<input type="submit" value="Save" class="btn btn-success"></input>

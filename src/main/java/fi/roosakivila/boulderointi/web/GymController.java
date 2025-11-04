@@ -3,13 +3,16 @@ package fi.roosakivila.boulderointi.web;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import fi.roosakivila.boulderointi.domain.Gym;
 import fi.roosakivila.boulderointi.domain.GymRepository;
+import jakarta.validation.Valid;
 
 @Controller
 public class GymController {
@@ -27,17 +30,22 @@ public class GymController {
         return "gymlist"; // gymlist.html
     }
 
-    // Add gym
-    @RequestMapping("/addgym")
+   // Add gym - GET request to show form
+    @GetMapping("/addgym")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String addGym(Model model) {
         model.addAttribute("gym", new Gym());
-        return "addgym"; // addgym.html
+        return "addgym";
     }
 
-    // Save gym
+    // Save gym - POST request with validation
     @PostMapping("/savegym")
-    public String saveGym(Gym gym) {
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String saveGym(@Valid @ModelAttribute("gym") Gym gym, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            // If validation fails, return to form with errors
+            return "addgym";
+        }
         gymRepository.save(gym);
         return "redirect:gymlist";
     }

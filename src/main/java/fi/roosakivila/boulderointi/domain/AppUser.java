@@ -9,6 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity(name = "users")
 public class AppUser {
@@ -18,9 +20,13 @@ public class AppUser {
     @Column(name = "userId", nullable = false, updatable = false)
     private Long userId;
 
+    @NotBlank(message = "Username is required")
+    @Size(min = 3, max = 10, message = "Username must be between 3 and 10 characters")
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
+    @Size(min = 4, message = "Password must be at least 4 characters long")
+    @NotBlank(message = "Password is required")
     @Column(name = "password", nullable = false)
     private String passwordHash;
 

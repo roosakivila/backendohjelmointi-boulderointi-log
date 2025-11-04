@@ -10,6 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Gym {
@@ -18,7 +20,12 @@ public class Gym {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long gymId;
 
+    @NotBlank(message = "Gym name is required")
+    @Size(min = 1, max = 100, message = "Gym name must be between 1 and 100 characters")
     private String name;
+
+    @NotBlank(message = "City is required")
+    @Size(min = 1, max = 30, message = "City name must be between 1 and 30 characters")
     private String city;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "gym")

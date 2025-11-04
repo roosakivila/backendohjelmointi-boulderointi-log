@@ -8,6 +8,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Route {
@@ -16,7 +19,12 @@ public class Route {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long routeId;
 
+    @NotBlank(message = "Name is required")
+    @Size(min = 1, max = 100, message = "Route name must be between 1 and 100 characters")
     private String name;
+
+    @NotBlank(message = "Grade is required")
+    @Pattern(regexp = "^(?:[4-9][a-cA-C]?\\+?|[Vv][0-9])$", message = "Grade must be in format: 4-9a/b/c+ (e.g., 6A, 6b+) or V-scale (e.g., V6, V7)")
     private String grade;
 
     @ManyToOne

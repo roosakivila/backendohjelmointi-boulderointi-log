@@ -10,6 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Project {
@@ -19,9 +22,13 @@ public class Project {
     private Long projectId;
 
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Status is required")
     private Status status;
 
+    @Min(value = 0, message = "Attempts must be 0 or greater")
     private int attempts;
+
+    @Size(max = 500, message = "Notes must not exceed 500 characters")
     private String notes;
 
     @ManyToOne
@@ -30,6 +37,7 @@ public class Project {
     private AppUser appuser;
 
     @ManyToOne
+    @NotNull(message = "Route is required")
     @JsonIgnoreProperties("routes")
     @JoinColumn(name = "routeId")
     private Route route;

@@ -9,16 +9,28 @@
 
 <body style="margin:20px;">
     <h1>Create account</h1>
+
     <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
     <form th:action="@{/signup}" method="post" th:object="${user}">
         <div class="mb-3">
             <label class="form-label">Username</label>
-            <input class="form-control" type="text" th:field="*{username}" required />
+            <input class="form-control" type="text" th:field="*{username}"
+                th:class="${#fields.hasErrors('username')} ? 'form-control is-invalid' : 'form-control'" />
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}">
+                <span th:errors="*{username}">Username errors</span>
+            </div>
         </div>
+
         <div class="mb-3">
             <label class="form-label">Password</label>
-            <input class="form-control" type="password" th:field="*{passwordHash}" required />
+            <input class="form-control" type="password" th:field="*{passwordHash}"
+                th:class="${#fields.hasErrors('passwordHash')} ? 'form-control is-invalid' : 'form-control'" />
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('passwordHash')}">
+                <span th:errors="*{passwordHash}">Password errors</span>
+            </div>
         </div>
+
         <button class="btn btn-primary" type="submit">Sign up</button>
         <a class="btn btn-link" href="/login">Have an account? Sign in</a>
     </form>

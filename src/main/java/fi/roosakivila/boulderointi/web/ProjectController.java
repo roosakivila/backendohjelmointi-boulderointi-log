@@ -2,6 +2,7 @@ package fi.roosakivila.boulderointi.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import fi.roosakivila.boulderointi.domain.ProjectRepository;
 import fi.roosakivila.boulderointi.domain.Route;
 import fi.roosakivila.boulderointi.domain.RouteRepository;
 import fi.roosakivila.boulderointi.domain.Status;
+import jakarta.validation.Valid;
 
 @Controller
 public class ProjectController {
@@ -36,7 +38,7 @@ public class ProjectController {
     @GetMapping("/projectlist")
     public String projectList(Model model, java.security.Principal principal) {
         AppUser currentUser = appUserRepository.findByUsername(principal.getName());
-        
+
         if (currentUser.getRole().equals("ADMIN")) {
             // Admin sees all projects
             model.addAttribute("projects", projectRepository.findAll());
@@ -46,7 +48,7 @@ public class ProjectController {
             model.addAttribute("projects", projectRepository.findByAppuser_UserId(currentUser.getUserId()));
             model.addAttribute("isAdmin", false);
         }
-        
+
         return "projectlist"; // projectlist.html
     }
 
@@ -63,11 +65,15 @@ public class ProjectController {
 
     // Save project
     @PostMapping("/saveproject")
-    public String saveProject(Project project, java.security.Principal principal) {
+    public String saveProject(@Valid Project project, BindingResult bindingResult, java.security.Principal principal) {
         AppUser user = appUserRepository.findByUsername(principal.getName());
         project.setAppuser(user);
-        projectRepository.save(project);
-        return "redirect:projectlist";
+        if (bindingResult.hasErrors()) {
+            return "addproject";
+        } else {
+            projectRepository.save(project);
+            return "redirect:projectlist";
+        }
     }
 
     // Delete project

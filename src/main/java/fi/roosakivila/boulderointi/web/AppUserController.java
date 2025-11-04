@@ -2,6 +2,8 @@ package fi.roosakivila.boulderointi.web;
 
 import fi.roosakivila.boulderointi.domain.AppUser;
 import fi.roosakivila.boulderointi.domain.AppUserRepository;
+import jakarta.validation.Valid;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +27,7 @@ public class AppUserController {
     }
 
     @PostMapping("/signup")
-    public String signup(@ModelAttribute("user") AppUser user, BindingResult bindingResult, Model model) {
+    public String signup(@Valid AppUser user, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "signup";
         }
