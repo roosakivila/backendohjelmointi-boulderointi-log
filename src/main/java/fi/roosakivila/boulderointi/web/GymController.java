@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import fi.roosakivila.boulderointi.domain.Gym;
 import fi.roosakivila.boulderointi.domain.GymRepository;
 import jakarta.validation.Valid;
@@ -30,7 +28,7 @@ public class GymController {
         return "gymlist"; // gymlist.html
     }
 
-   // Add gym - GET request to show form
+    // Add gym - GET request to show form
     @GetMapping("/addgym")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String addGym(Model model) {
