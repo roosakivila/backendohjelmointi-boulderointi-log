@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import fi.roosakivila.boulderointi.domain.AppUser;
 import fi.roosakivila.boulderointi.domain.AppUserRepository;
@@ -56,12 +57,21 @@ public class ProjectController {
 
     // Add project
     @RequestMapping("/addproject")
-    public String addProject(Model model) {
+    public String addProject(@RequestParam(value = "gymId", required = false) Long gymId, Model model) {
         model.addAttribute("project", new Project());
         model.addAttribute("statuses", Status.values());
         model.addAttribute("route", new Route());
         model.addAttribute("routes", routeRepository.findAll());
         model.addAttribute("gyms", gymRepository.findAll());
+
+        // Filter routes by gym if gymId is provided
+        if (gymId != null) {
+            model.addAttribute("routes", routeRepository.findByGym_GymId(gymId));
+            model.addAttribute("selectedGymId", gymId);
+        } else {
+            model.addAttribute("routes", routeRepository.findAll());
+            model.addAttribute("selectedGymId", null);
+        }
         return "addproject"; // addproject.html
     }
 
