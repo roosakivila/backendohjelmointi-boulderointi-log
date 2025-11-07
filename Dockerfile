@@ -6,7 +6,9 @@ COPY mvnw pom.xml ./
 # temporarily switch to root for permission change
 USER root
 RUN chmod +x ./mvnw
-USER 185  # switch back to non-root user (default for UBI)
+
+# switch back to non-root user (default for UBI)
+USER 185
 
 RUN ./mvnw dependency:go-offline
 COPY ./src ./src
