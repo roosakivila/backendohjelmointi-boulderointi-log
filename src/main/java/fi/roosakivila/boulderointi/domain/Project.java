@@ -1,7 +1,10 @@
 package fi.roosakivila.boulderointi.domain;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -36,6 +39,9 @@ public class Project {
     @JoinColumn(name = "userId")
     private AppUser appuser;
 
+    @Column(name = "date_modified", nullable = false, updatable = true)
+    private LocalDateTime dateModified;
+
     @ManyToOne
     @NotNull(message = "Route is required")
     @JsonIgnoreProperties("routes")
@@ -52,6 +58,7 @@ public class Project {
         this.notes = notes;
         this.appuser = user;
         this.route = route;
+        this.dateModified = LocalDateTime.now();
     }
 
     public Long getProjectId() {
@@ -100,6 +107,14 @@ public class Project {
 
     public void setRoute(Route route) {
         this.route = route;
+    }
+
+    public LocalDateTime getDateModified() {
+        return dateModified;
+    }
+
+    public void setDateModified(LocalDateTime dateModified) {
+        this.dateModified = dateModified;
     }
 
     @Override

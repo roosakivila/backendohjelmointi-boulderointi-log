@@ -1,5 +1,7 @@
 package fi.roosakivila.boulderointi.web;
 
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -66,9 +68,26 @@ public class ProjectController {
     // Save project
     @PostMapping("/saveproject")
     public String saveProject(@Valid Project project, BindingResult bindingResult, java.security.Principal principal) {
-        AppUser user = appUserRepository.findByUsername(principal.getName());
-        project.setAppuser(user);
+        AppUser currentUser = appUserRepository.findByUsername(principal.getName());
+
+        // If editing existing project, check ownership
+        if (project.getProjectId() != null) {
+            Project existingProject = projectRepository.findById(project.getProjectId())
+                    .orElseThrow(() -> new IllegalArgumentException("Project not found: " + project.getProjectId()));
+
+            // Users can only edit their own projects, admins can edit any
+            if (!currentUser.getRole().equals("ADMIN") &&
+                    !existingProject.getAppuser().getUserId().equals(currentUser.getUserId())) {
+                return "redirect:projectlist";
+            }
+        }
+
+        project.setAppuser(currentUser);
+        project.setDateModified(LocalDateTime.now());
         if (bindingResult.hasErrors()) {
+            if (project.getProjectId() != null) {
+                return "editproject";
+            }
             return "addproject";
         } else {
             projectRepository.save(project);
@@ -78,16 +97,34 @@ public class ProjectController {
 
     // Delete project
     @GetMapping("/deleteproject/{id}")
-    public String deleteProject(@PathVariable("id") Long id, Model model) {
+    public String deleteProject(@PathVariable("id") Long id, Model model, java.security.Principal principal) {
+        AppUser currentUser = appUserRepository.findByUsername(principal.getName());
+        Project project = projectRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Project not found: " + id));
+
+        // Users can only delete their own projects, admins can delete any
+        if (!currentUser.getRole().equals("ADMIN") &&
+                !project.getAppuser().getUserId().equals(currentUser.getUserId())) {
+            return "redirect:../projectlist";
+        }
+
         projectRepository.deleteById(id);
         return "redirect:../projectlist";
     }
 
     // Edit project
     @GetMapping("/editproject/{id}")
-    public String modifyProject(@PathVariable("id") Long id, Model model) {
+    public String modifyProject(@PathVariable("id") Long id, Model model, java.security.Principal principal) {
+        AppUser currentUser = appUserRepository.findByUsername(principal.getName());
         Project project = projectRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid route Id:" + id));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid project Id:" + id));
+
+        // Users can only edit their own projects, admins can edit any
+        if (!currentUser.getRole().equals("ADMIN") &&
+                !project.getAppuser().getUserId().equals(currentUser.getUserId())) {
+            return "redirect:../projectlist";
+        }
+
         model.addAttribute("project", project);
         model.addAttribute("statuses", Status.values());
         model.addAttribute("route", new Route());
