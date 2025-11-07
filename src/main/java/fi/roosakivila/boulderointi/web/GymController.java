@@ -28,7 +28,7 @@ public class GymController {
         return "gymlist"; // gymlist.html
     }
 
-    // Add gym - GET request to show form
+    // Add gym 
     @GetMapping("/addgym")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String addGym(Model model) {
@@ -36,12 +36,11 @@ public class GymController {
         return "addgym";
     }
 
-    // Save gym - POST request with validation
+    // Save gym
     @PostMapping("/savegym")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String saveGym(@Valid @ModelAttribute("gym") Gym gym, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            // If validation fails, return to form with errors
             return "addgym";
         }
         gymRepository.save(gym);
