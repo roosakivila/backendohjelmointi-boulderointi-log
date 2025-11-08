@@ -29,7 +29,7 @@ public class RouteController {
     // Redirect home to routelist
     @GetMapping("/")
     public String home() {
-        return "redirect:/routelist";
+        return "index";
     }
 
     // Get routelist

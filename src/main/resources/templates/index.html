@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <title th:text="#{page.title.welcome}">Welcome - Bouldering-Log</title>
+</head>
+
+<body style="margin: 20px;">
+    <div th:replace="fragments :: siteHeader"></div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="text-center mb-5">
+                    <h1 class="display-4 mb-3" th:text="#{app.name}">Bouldering-Log</h1>
+                    <p class="lead" th:text="#{index.tagline}">Track your projects</p>
+                </div>
+
+                <div class="card shadow-sm text-center">
+                    <div class="card-body p-4">
+                        <h3 class="card-title mb-4" th:text="#{index.whatis}">What is Bouldering-Log?</h3>
+                        <ul class="list-unstyled">
+                            <li class="mb-3">
+                                <strong th:text="#{index.feature.routes}">Track Routes:</strong>
+                                <span th:text="#{index.feature.routes.desc}">View and add routes</span>
+                            </li>
+                            <li class="mb-3">
+                                <strong th:text="#{index.feature.projects}">Manage Projects:</strong>
+                                <span th:text="#{index.feature.projects.desc}">Keep track of your climbing projects and
+                                    progress</span>
+                            </li>
+                            <li class="mb-3">
+                                <strong th:text="#{index.feature.progress}">Monitor Progress:</strong>
+                                <span th:text="#{index.feature.progress.desc}">Track your attempts and improvements over
+                                    time</span>
+                            </li>
+                        </ul>
+
+                        <div class="mt-4 text-center">
+                            <div sec:authorize="isAnonymous()">
+                                <a href="/routelist" class="btn btn-secondary me-2" th:text="#{nav.routes}">Routes</a>
+                                <a href="/signup" class="btn btn-primary me-2" th:text="#{button.signup}">Sign
+                                    up</a>
+                                <a href="/login" class="btn btn-outline-primary" th:text="#{nav.signin}">Sign
+                                    in</a>
+                            </div>
+                            <div sec:authorize="isAuthenticated()">
+                                <a href="/routelist" class="btn btn-outline-primary me-2"
+                                    th:text="#{nav.routes}">Routes</a>
+                                <a href="/projectlist" class="btn btn-outline-primary me-2"
+                                    th:text="#{nav.projects}">Projects</a>
+                                <a href="/gymlist" class="btn btn-outline-primary" th:text="#{nav.gyms}">Gyms</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

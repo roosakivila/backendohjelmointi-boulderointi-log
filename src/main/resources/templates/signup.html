@@ -8,32 +8,36 @@
 </head>
 
 <body style="margin:20px;">
-    <h1 th:text="#{page.title.createaccount}">Create account</h1>
+    <div class="container mt-5">
+        <div class="card shadow-sm p-4">
+            <h1 th:text="#{page.title.createaccount}">Create account</h1>
 
-    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+            <div class="container mt-5">
+                <form th:action="@{/signup}" method="post" th:object="${user}">
+                    <div class="mb-3">
+                        <label class="form-label" th:text="#{form.label.username}">Username</label>
+                        <input class="form-control" type="text" th:field="*{username}"
+                            th:class="${#fields.hasErrors('username')} ? 'form-control is-invalid' : 'form-control'" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}">
+                            <span th:errors="*{username}">Username errors</span>
+                        </div>
+                    </div>
 
-    <form th:action="@{/signup}" method="post" th:object="${user}">
-        <div class="mb-3">
-            <label class="form-label" th:text="#{form.label.username}">Username</label>
-            <input class="form-control" type="text" th:field="*{username}"
-                th:class="${#fields.hasErrors('username')} ? 'form-control is-invalid' : 'form-control'" />
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}">
-                <span th:errors="*{username}">Username errors</span>
+                    <div class="mb-3">
+                        <label class="form-label" th:text="#{form.label.password}">Password</label>
+                        <input class="form-control" type="password" th:field="*{passwordHash}"
+                            th:class="${#fields.hasErrors('passwordHash')} ? 'form-control is-invalid' : 'form-control'" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('passwordHash')}">
+                            <span th:errors="*{passwordHash}">Password errors</span>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit" th:text="#{button.signup}">Sign up</button>
+                    <a class="btn btn-link" href="/login" th:text="#{message.haveaccount}">Have an account? Sign in</a>
+                </form>
             </div>
         </div>
-
-        <div class="mb-3">
-            <label class="form-label" th:text="#{form.label.password}">Password</label>
-            <input class="form-control" type="password" th:field="*{passwordHash}"
-                th:class="${#fields.hasErrors('passwordHash')} ? 'form-control is-invalid' : 'form-control'" />
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('passwordHash')}">
-                <span th:errors="*{passwordHash}">Password errors</span>
-            </div>
-        </div>
-
-        <button class="btn btn-primary" type="submit" th:text="#{button.signup}">Sign up</button>
-        <a class="btn btn-link" href="/login" th:text="#{message.haveaccount}">Have an account? Sign in</a>
-    </form>
 </body>
 
 </html>
