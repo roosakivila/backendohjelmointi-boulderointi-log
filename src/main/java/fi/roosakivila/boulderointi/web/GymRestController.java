@@ -23,31 +23,31 @@ public class GymRestController {
 
     private GymRepository gymRepository;
 
-    public GymRestController(GymRepository gymRepository){
+    public GymRestController(GymRepository gymRepository) {
         this.gymRepository = gymRepository;
     }
 
     // List all gym
     @GetMapping("/gyms")
-    public @ResponseBody List<Gym> getAllGyms(){
+    public @ResponseBody List<Gym> getAllGyms() {
         return (List<Gym>) gymRepository.findAll();
     }
 
-    //Get gym by id
+    // Get gym by id
     @GetMapping("/gyms/{id}")
-    public @ResponseBody Optional<Gym> getGymById(@PathVariable("id") Long gymId){
+    public @ResponseBody Optional<Gym> getGymById(@PathVariable("id") Long gymId) {
         return gymRepository.findById(gymId);
     }
 
-    //Add gym (admin)
+    // Add gym (admin)
     @PostMapping("/gyms")
     @PreAuthorize("hasAuthority('ADMIN')")
     public @ResponseBody Gym addGym(@Valid @RequestBody Gym gym) {
         return gymRepository.save(gym);
     }
 
-    //Update gym (admin)
-    @PutMapping("gyms/{id}")
+    // Update gym (admin)
+    @PutMapping("/gyms/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public @ResponseBody Gym updateGym(@PathVariable("id") Long gymId, @Valid @RequestBody Gym gym) {
         Gym existingGym = gymRepository.findById(gymId)
@@ -57,14 +57,14 @@ public class GymRestController {
         return gymRepository.save(existingGym);
     }
 
-    //Delete gym (admin)
-    @DeleteMapping("gyms/{id}")
+    // Delete gym (admin)
+    @DeleteMapping("/gyms/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public @ResponseBody void deleteGym(@PathVariable("id") Long gymId) {
         gymRepository.deleteById(gymId);
     }
 
-    //Get all routes for a gym
+    // Get all routes for a gym
     @GetMapping("/gyms/{id}/routes")
     public @ResponseBody List<Route> getRoutesForGym(@PathVariable("id") Long gymId) {
         Gym gym = gymRepository.findById(gymId)

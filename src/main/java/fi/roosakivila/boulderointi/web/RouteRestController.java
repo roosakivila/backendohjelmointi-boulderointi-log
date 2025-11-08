@@ -22,43 +22,43 @@ public class RouteRestController {
 
     private RouteRepository routeRepository;
 
-    public RouteRestController(RouteRepository routeRepository){
+    public RouteRestController(RouteRepository routeRepository) {
         this.routeRepository = routeRepository;
     }
 
     // Get all routes
     @GetMapping("/routes")
-    public @ResponseBody List<Route> getAllRoutes(){
+    public @ResponseBody List<Route> getAllRoutes() {
         return (List<Route>) routeRepository.findAll();
     }
 
-    //Get route by id
+    // Get route by id
     @GetMapping("/routes/{id}")
-    public @ResponseBody Optional<Route> getRouteById(@PathVariable("id") Long routeId){
+    public @ResponseBody Optional<Route> getRouteById(@PathVariable("id") Long routeId) {
         return routeRepository.findById(routeId);
     }
 
-    //Add route (authorized)
+    // Add route (authorized)
     @PostMapping("/routes")
-    @PreAuthorize("hasAuthority('ADMIN')") // muuta tämä!
+    @PreAuthorize("hasAuthority('ADMIN')")
     public @ResponseBody Route addRoute(@Valid @RequestBody Route route) {
         return routeRepository.save(route);
     }
 
-    //Update route (authorized)
-    @PutMapping("routes/{id}")
+    // Update route (authorized)
+    @PutMapping("/routes/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public @ResponseBody Route updateRoute(@PathVariable("id") Long routeId, @Valid @RequestBody Route route) {
         Route existingRoute = routeRepository.findById(routeId)
-                .orElseThrow(() -> new IllegalArgumentException("Gym not found: " + routeId));
+                .orElseThrow(() -> new IllegalArgumentException("Route not found: " + routeId));
         existingRoute.setName(route.getName());
         existingRoute.setGrade(route.getGrade());
         existingRoute.setGym(route.getGym());
         return routeRepository.save(existingRoute);
     }
 
-    //Delete route (admin)
-    @DeleteMapping("routes/{id}")
+    // Delete route (admin)
+    @DeleteMapping("/routes/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public @ResponseBody void deleteRoute(@PathVariable("id") Long routeId) {
         routeRepository.deleteById(routeId);
