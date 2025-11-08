@@ -49,8 +49,13 @@
 						<span th:text="#{message.selectgymtoroutes}"></span>
 					</div>
 				</div>
-				<div><a th:href="@{/addroute(redirect='/addproject' + (selectedGymId != null ? '?gymId=' + selectedGymId : ''))}"
-						class="btn btn-success" th:text="#{button.addroute}">Add Route</a></div>
+				<div>
+					<a th:if="${selectedGymId != null}"
+						th:href="@{/addroute(redirect='/addproject?gymId=' + ${selectedGymId})}" class="btn btn-success"
+						th:text="#{button.addroute}">Add Route</a>
+					<a th:if="${selectedGymId == null}" th:href="@{/addroute(redirect='/addproject')}"
+						class="btn btn-success" th:text="#{button.addroute}">Add Route</a>
+				</div>
 				<div class="mb-3">
 					<label for="statuslist" class="form-label" th:text="#{form.label.status}">Status:</label>
 					<select id="statuslist" class="form-select" th:field="*{status}"
