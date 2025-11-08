@@ -39,18 +39,18 @@ public class RouteController {
         return "routelist"; // routelist.html
     }
 
-    // Add route 
+    // Add route
     @GetMapping("/addroute")
     public String addRoute(@RequestParam(value = "redirect", required = false) String redirectUrl, Model model) {
         model.addAttribute("route", new Route());
-        model.addAttribute("gyms", gymRepository.findAll()); 
+        model.addAttribute("gyms", gymRepository.findAll());
         if (redirectUrl != null) {
             model.addAttribute("redirectUrl", redirectUrl);
         }
         return "addroute";
     }
 
-    // Save route 
+    // Save route
     @PostMapping("/saveroute")
     public String saveRoute(@Valid Route route, BindingResult bindingResult,
             @RequestParam(value = "redirectUrl", required = false) String redirectUrl,
@@ -60,7 +60,11 @@ public class RouteController {
             if (redirectUrl != null) {
                 model.addAttribute("redirectUrl", redirectUrl);
             }
-            return "addroute"; 
+            // Return "editroute" if editing
+            if (route.getRouteId() != null) {
+                return "editroute";
+            }
+            return "addroute";
         }
         routeRepository.save(route);
         if (redirectUrl != null && !redirectUrl.isEmpty()) {

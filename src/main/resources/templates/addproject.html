@@ -34,12 +34,16 @@
 			<form th:object="${project}" th:action="@{saveproject}" action="#" method="post">
 				<div class="mb-3">
 					<label for="routelist" class="form-label">Route name:</label>
-					<select id="routelist" class="form-select" th:field="*{route}">
+					<select id="routelist" class="form-select" th:field="*{route}"
+						th:class="${#fields.hasErrors('route')} ? 'form-select is-invalid' : 'form-select'">
 						<option value="">-- Select a route --</option>
 						<option th:each="route : ${routes}" th:value="${route.routeId}"
 							th:text="${route.name + ' (' + route.grade + ')'}">
 						</option>
 					</select>
+					<div class="invalid-feedback" th:if="${#fields.hasErrors('route')}">
+						<span th:errors="*{route}">Route errors</span>
+					</div>
 					<div th:if="${selectedGymId == null}" class="form-text">
 						Please select a gym above to see available routes.
 					</div>
@@ -48,10 +52,14 @@
 						class="btn btn-success">Add Route</a></div>
 				<div class="mb-3">
 					<label for="statuslist" class="form-label">Status:</label>
-					<select id="statuslist" class="form-select" th:field="*{status}">
+					<select id="statuslist" class="form-select" th:field="*{status}"
+						th:class="${#fields.hasErrors('status')} ? 'form-select is-invalid' : 'form-select'">
 						<option th:each="st : ${statuses}" th:value="${st.name()}" th:text="${st}">
 						</option>
 					</select>
+					<div class="invalid-feedback" th:if="${#fields.hasErrors('status')}">
+						<span th:errors="*{status}">Status errors</span>
+					</div>
 				</div>
 				<div class="mb-3">
 					<label for="attempts" class="form-label">Attempts:</label>

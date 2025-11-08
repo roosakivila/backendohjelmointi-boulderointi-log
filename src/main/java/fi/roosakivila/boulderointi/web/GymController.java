@@ -28,7 +28,7 @@ public class GymController {
         return "gymlist"; // gymlist.html
     }
 
-    // Add gym 
+    // Add gym
     @GetMapping("/addgym")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String addGym(Model model) {
@@ -41,6 +41,10 @@ public class GymController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String saveGym(@Valid @ModelAttribute("gym") Gym gym, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            // Return "editgym" if editing
+            if (gym.getGymId() != null) {
+                return "editgym";
+            }
             return "addgym";
         }
         gymRepository.save(gym);

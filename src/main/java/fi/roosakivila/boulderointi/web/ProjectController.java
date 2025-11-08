@@ -72,6 +72,7 @@ public class ProjectController {
             model.addAttribute("routes", routeRepository.findAll());
             model.addAttribute("selectedGymId", null);
         }
+
         return "addproject"; // addproject.html
     }
 

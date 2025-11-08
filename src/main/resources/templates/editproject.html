@@ -16,27 +16,36 @@
             <form th:object="${project}" th:action="@{../saveproject}" method="post">
                 <div class="mb-3">
                     <input type="hidden" th:field="*{projectId}" />
-                    <label for="routelist" class="form-label">Route name:</label>
-                    <select id="routelist" class="form-select" th:field="*{route}">
-                        <option th:each="route : ${routes}" th:value="${route.routeId}" th:text="${route.name}">
-                        </option>
-                    </select>
+                    <label class="form-label">Route:</label>
+                    <p class="form-control-plaintext border-bottom pb-2"
+                        th:text="${project.route.name + ' (' + project.route.grade + ')'}"></p>
                 </div>
-                <div><a href="/addroute" class="btn btn-success">Add Route</a></div>
                 <div class="mb-3">
                     <label for="statuslist" class="form-label">Status:</label>
-                    <select id="statuslist" class="form-select" th:field="*{status}">
+                    <select id="statuslist" class="form-select" th:field="*{status}"
+                        th:class="${#fields.hasErrors('status')} ? 'form-select is-invalid' : 'form-select'">
                         <option th:each="st : ${statuses}" th:value="${st.name()}" th:text="${st}">
                         </option>
                     </select>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('status')}">
+                        <span th:errors="*{status}">Status errors</span>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="attempts" class="form-label">Attempts:</label>
-                    <input type="number" class="form-control" id="attempts" th:field="*{attempts}" />
+                    <input type="number" class="form-control" id="attempts" th:field="*{attempts}"
+                        th:class="${#fields.hasErrors('attempts')} ? 'form-control is-invalid' : 'form-control'" />
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('attempts')}">
+                        <span th:errors="*{attempts}">Attempts errors</span>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="notes" class="form-label">Notes:</label>
-                    <textarea class="form-control" id="notes" th:field="*{notes}" rows="4"></textarea>
+                    <textarea class="form-control" id="notes" th:field="*{notes}" rows="4"
+                        th:class="${#fields.hasErrors('notes')} ? 'form-control is-invalid' : 'form-control'"></textarea>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('notes')}">
+                        <span th:errors="*{notes}">Notes errors</span>
+                    </div>
                 </div>
 
                 <input type="submit" value="Save" class="btn btn-success"></input>

@@ -17,11 +17,19 @@
                 <div class="mb-3">
                     <input type="hidden" th:field="*{routeId}" />
                     <label for="name" class="form-label">Name:</label>
-                    <input type="text" class="form-control" id="name" th:field="*{name}" />
+                    <input type="text" class="form-control" id="name" th:field="*{name}"
+                        th:class="${#fields.hasErrors('name')} ? 'form-control is-invalid' : 'form-control'" />
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}">
+                        <span th:errors="*{name}">Route name errors</span>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="grade" class="form-label">Grade:</label>
-                    <input type="text" class="form-control" id="grade" th:field="*{grade}" />
+                    <input type="text" class="form-control" id="grade" th:field="*{grade}"
+                        th:class="${#fields.hasErrors('grade')} ? 'form-control is-invalid' : 'form-control'" />
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('grade')}">
+                        <span th:errors="*{grade}">Grade errors</span>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="gymlist" class="form-label">Gym:</label>
