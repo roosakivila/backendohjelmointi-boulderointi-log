@@ -5,18 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
-    <title>Edit gym</title>
+    <title th:attr="text=#{page.title.editgym}">Edit gym</title>
 </head>
 
 <body>
     <div th:replace="fragments :: siteHeader"></div>
     <div class="container mt-5">
         <div class="card shadow-sm p-4">
-            <h1>Edit Gym</h1>
+            <h1 th:text="#{page.title.editgym}">Edit Gym</h1>
             <form th:object="${gym}" th:action="@{../savegym}" method="post">
                 <div class="mb-3">
                     <input type="hidden" th:field="*{gymId}" />
-                    <label for="name" class="form-label">Name:</label>
+                    <label for="name" class="form-label" th:text="#{form.label.gymname}">Name:</label>
                     <input type="text" class="form-control" id="name" th:field="*{name}"
                         th:class="${#fields.hasErrors('name')} ? 'form-control is-invalid' : 'form-control'" />
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}">
@@ -24,14 +24,14 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="city" class="form-label">City:</label>
+                    <label for="city" class="form-label" th:text="#{form.label.city}">City:</label>
                     <input type="text" class="form-control" id="city" th:field="*{city}"
                         th:class="${#fields.hasErrors('city')} ? 'form-control is-invalid' : 'form-control'" />
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('city')}">
                         <span th:errors="*{city}">City errors</span>
                     </div>
                 </div>
-                <input type="submit" value="Save" class="btn btn-success" />
+                <input type="submit" value="Save" class="btn btn-success" th:text="#{button.save}"></input>
             </form>
         </div>
     </div>

@@ -5,26 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
-    <title>Edit project</title>
+    <title th:attr="text=#{page.title.editproject}">Edit project</title>
 </head>
 
 <body>
     <div th:replace="fragments :: siteHeader"></div>
     <div class="container mt-5">
         <div class="card shadow-sm p-4">
-            <h1>Edit Project</h1>
+            <h1 th:text="#{page.title.editproject}">Edit Project</h1>
             <form th:object="${project}" th:action="@{../saveproject}" method="post">
                 <div class="mb-3">
                     <input type="hidden" th:field="*{projectId}" />
-                    <label class="form-label">Route:</label>
+                    <label class="form-label" th:text="#{form.label.routename}">Route:</label>
                     <p class="form-control-plaintext border-bottom pb-2"
                         th:text="${project.route.name + ' (' + project.route.grade + ')'}"></p>
                 </div>
                 <div class="mb-3">
-                    <label for="statuslist" class="form-label">Status:</label>
+                    <label for="statuslist" class="form-label" th:text="#{form.label.status}">Status:</label>
                     <select id="statuslist" class="form-select" th:field="*{status}"
                         th:class="${#fields.hasErrors('status')} ? 'form-select is-invalid' : 'form-select'">
-                        <option th:each="st : ${statuses}" th:value="${st.name()}" th:text="${st}">
+                        <option th:each="st : ${statuses}" th:value="${st.name()}"
+                            th:text="#{'status.' + ${st.name()}}">
                         </option>
                     </select>
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('status')}">
@@ -32,7 +33,7 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="attempts" class="form-label">Attempts:</label>
+                    <label for="attempts" class="form-label" th:text="#{form.label.attempts}">Attempts:</label>
                     <input type="number" class="form-control" id="attempts" th:field="*{attempts}"
                         th:class="${#fields.hasErrors('attempts')} ? 'form-control is-invalid' : 'form-control'" />
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('attempts')}">
@@ -40,7 +41,7 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="notes" class="form-label">Notes:</label>
+                    <label for="notes" class="form-label" th:text="#{form.label.notes}">Notes:</label>
                     <textarea class="form-control" id="notes" th:field="*{notes}" rows="4"
                         th:class="${#fields.hasErrors('notes')} ? 'form-control is-invalid' : 'form-control'"></textarea>
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('notes')}">
@@ -48,7 +49,7 @@
                     </div>
                 </div>
 
-                <input type="submit" value="Save" class="btn btn-success"></input>
+                <input type="submit" value="Save" class="btn btn-success" th:text="#{button.save}"></input>
             </form>
         </div>
     </div>

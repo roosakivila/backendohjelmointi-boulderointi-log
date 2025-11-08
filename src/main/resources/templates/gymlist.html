@@ -5,29 +5,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
-  <title>Gymlist</title>
+  <title th:attr="text=#{page.title.gymlist}">Gymlist</title>
 </head>
 
 <body style="margin: 20px;">
   <div th:replace="fragments :: siteHeader"></div>
-  <h1>Gyms</h1>
+  <h1 th:text="#{page.title.gyms}">Gyms</h1>
 
   <table class="table table-striped">
     <tr>
-      <th>Name</th>
-      <th>City</th>
-      <th></th>
-      <th></th>
+      <th th:text="#{table.header.name}">Name</th>
+      <th th:text="#{table.header.city}">City</th>
+      <th sec:authorize="hasAuthority('ADMIN')"></th>
+      <th sec:authorize="hasAuthority('ADMIN')"></th>
     </tr>
     <tr th:each="gym : ${gyms}">
       <td th:text="${gym.name}"></td>
       <td th:text="${gym.city}"></td>
-      <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/deletegym/{id}(id=${gym.gymId})}" class="btn btn-danger">Delete</a></td>
-      <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/editgym/{id}(id=${gym.gymId})}" class="btn btn-primary">Edit</a></td>
+      <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/deletegym/{id}(id=${gym.gymId})}" class="btn btn-danger"
+          th:text="#{button.delete}">Delete</a></td>
+      <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/editgym/{id}(id=${gym.gymId})}" class="btn btn-primary"
+          th:text="#{button.edit}">Edit</a></td>
     </tr>
     </tr>
   </table>
-  <a sec:authorize="hasAuthority('ADMIN')" href="/addgym" class="btn btn-success">Add Gym</a>
+  <a sec:authorize="hasAuthority('ADMIN')" href="/addgym" class="btn btn-success" th:text="#{button.addgym}">Add Gym</a>
 </body>
 
 </html>

@@ -5,27 +5,28 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
-	<title>Add project</title>
+	<title th:attr="text=#{page.title.addproject}">Add project</title>
 </head>
 
 <body>
 	<div th:replace="fragments :: siteHeader"></div>
 	<div class="container mt-5">
 		<div class="card shadow-sm p-4">
-			<h1>Add project</h1>
+			<h1 th:text="#{page.title.addproject}">Add project</h1>
 
 			<!-- Gym selection form -->
 			<form th:action="@{/addproject}" method="get" class="mb-3">
 				<div class="mb-3">
-					<label for="gymlist" class="form-label">Gym:</label>
+					<label for="gymlist" class="form-label" th:text="#{form.label.selectgym}">Gym:</label>
 					<div class="input-group">
 						<select id="gymlist" name="gymId" class="form-select">
-							<option value="">-- All gyms --</option>
+							<option value="" th:text="#{form.label.allgyms}">-- All gyms --</option>
 							<option th:each="gym : ${gyms}" th:value="${gym.gymId}" th:text="${gym.name}"
 								th:selected="${selectedGymId != null and selectedGymId == gym.gymId}">
 							</option>
 						</select>
-						<button type="submit" class="btn btn-primary">Filter Routes</button>
+						<button type="submit" class="btn btn-primary" th:text="#{button.filterroutes}">Filter
+							Routes</button>
 					</div>
 				</div>
 			</form>
@@ -33,10 +34,10 @@
 			<!-- Main project form -->
 			<form th:object="${project}" th:action="@{saveproject}" action="#" method="post">
 				<div class="mb-3">
-					<label for="routelist" class="form-label">Route name:</label>
+					<label for="routelist" class="form-label" th:text="#{form.label.routename}">Route name:</label>
 					<select id="routelist" class="form-select" th:field="*{route}"
 						th:class="${#fields.hasErrors('route')} ? 'form-select is-invalid' : 'form-select'">
-						<option value="">-- Select a route --</option>
+						<option value="" th:text="#{form.label.selectroute}">-- Select a route --</option>
 						<option th:each="route : ${routes}" th:value="${route.routeId}"
 							th:text="${route.name + ' (' + route.grade + ')'}">
 						</option>
@@ -45,16 +46,17 @@
 						<span th:errors="*{route}">Route errors</span>
 					</div>
 					<div th:if="${selectedGymId == null}" class="form-text">
-						Please select a gym above to see available routes.
+						<span th:text="#{message.selectgymtoroutes}"></span>
 					</div>
 				</div>
 				<div><a th:href="@{/addroute(redirect='/addproject' + (selectedGymId != null ? '?gymId=' + selectedGymId : ''))}"
-						class="btn btn-success">Add Route</a></div>
+						class="btn btn-success" th:text="#{button.addroute}">Add Route</a></div>
 				<div class="mb-3">
-					<label for="statuslist" class="form-label">Status:</label>
+					<label for="statuslist" class="form-label" th:text="#{form.label.status}">Status:</label>
 					<select id="statuslist" class="form-select" th:field="*{status}"
 						th:class="${#fields.hasErrors('status')} ? 'form-select is-invalid' : 'form-select'">
-						<option th:each="st : ${statuses}" th:value="${st.name()}" th:text="${st}">
+						<option th:each="st : ${statuses}" th:value="${st.name()}"
+							th:text="#{'status.' + ${st.name()}}">
 						</option>
 					</select>
 					<div class="invalid-feedback" th:if="${#fields.hasErrors('status')}">
@@ -62,7 +64,7 @@
 					</div>
 				</div>
 				<div class="mb-3">
-					<label for="attempts" class="form-label">Attempts:</label>
+					<label for="attempts" class="form-label" th:text="#{form.label.attempts}">Attempts:</label>
 					<input type="number" class="form-control" id="attempts" th:field="*{attempts}"
 						th:class="${#fields.hasErrors('attempts')} ? 'form-control is-invalid' : 'form-control'" />
 					<div class="invalid-feedback" th:if="${#fields.hasErrors('attempts')}">
@@ -70,7 +72,7 @@
 					</div>
 				</div>
 				<div class="mb-3">
-					<label for="notes" class="form-label">Notes:</label>
+					<label for="notes" class="form-label" th:text="#{form.label.notes}">Notes:</label>
 					<textarea class="form-control" id="notes" th:field="*{notes}" rows="4"
 						th:class="${#fields.hasErrors('notes')} ? 'form-control is-invalid' : 'form-control'"></textarea>
 					<div class="invalid-feedback" th:if="${#fields.hasErrors('notes')}">
@@ -78,7 +80,7 @@
 					</div>
 				</div>
 
-				<input type="submit" value="Save" class="btn btn-success"></input>
+				<input type="submit" th:value="#{button.save}" class="btn btn-success"></input>
 			</form>
 		</div>
 	</div>

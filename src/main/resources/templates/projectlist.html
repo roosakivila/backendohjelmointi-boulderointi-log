@@ -5,42 +5,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
-  <title>Projectlist</title>
+  <title th:attr="text=#{page.title.projectlist}">Projectlist</title>
 </head>
 
 <body style="margin: 20px;">
   <div th:replace="fragments :: siteHeader"></div>
 
-  <h1>Projects</h1>
+  <h1 th:text="#{page.title.projects}">Projects</h1>
 
   <table class="table table-striped">
     <tr>
-      <th>Name</th>
-      <th>Grade</th>
-      <th>Gym</th>
-      <th>Status</th>
-      <th>Attempts</th>
-      <th>Notes</th>
-      <th>Date</th>
-      <th th:if="${isAdmin}">User</th>
-      <th></th>
-      <th></th>
+      <th th:text="#{table.header.name}">Name</th>
+      <th th:text="#{table.header.grade}">Grade</th>
+      <th th:text="#{table.header.gym}">Gym</th>
+      <th th:text="#{table.header.status}">Status</th>
+      <th th:text="#{table.header.attempts}">Attempts</th>
+      <th th:text="#{table.header.notes}">Notes</th>
+      <th th:text="#{table.header.date}">Date</th>
+      <th th:if="${isAdmin}" th:text="#{table.header.user}">User</th>
+      <th sec:authorize="hasAuthority('ADMIN')"></th>
+      <th sec:authorize="hasAuthority('ADMIN')"></th>
     </tr>
     <tr th:each="project : ${projects}">
       <td th:text="${project.route.name}"></td>
       <td th:text="${project.route.grade}"></td>
       <td th:text="${project.route.gym.name}"></td>
-      <td th:text="${project.status}"></td>
+      <td th:text="#{'status.' + ${project.status.name()}}"></td>
       <td th:text="${project.attempts}"></td>
       <td th:text="${project.notes}"></td>
       <td th:text="${#temporals.format(project.dateModified, 'dd.MM.yyyy')}"></td>
       <td th:if="${isAdmin}" th:text="${project.appuser.username}"></td>
-      <td><a th:href="@{/deleteproject/{id}(id=${project.projectId})}" class="btn btn-danger">Delete</a></td>
-      <td><a th:href="@{/editproject/{id}(id=${project.projectId})}" class="btn btn-primary">Edit</a></td>
+      <td><a th:href="@{/deleteproject/{id}(id=${project.projectId})}" class="btn btn-danger"
+          th:text="#{button.delete}">Delete</a></td>
+      <td><a th:href="@{/editproject/{id}(id=${project.projectId})}" class="btn btn-primary"
+          th:text="#{button.edit}">Edit</a></td>
     </tr>
     </tr>
   </table>
-  <a href="/addproject" class="btn btn-success">Add Project</a>
+  <a href="/addproject" class="btn btn-success" th:text="#{button.addproject}">Add Project</a>
 </body>
 
 </html>

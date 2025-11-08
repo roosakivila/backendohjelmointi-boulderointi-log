@@ -3,18 +3,18 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Sign up</title>
+    <title th:attr="text=#{page.title.signup}">Sign up</title>
     <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
 </head>
 
 <body style="margin:20px;">
-    <h1>Create account</h1>
+    <h1 th:text="#{page.title.createaccount}">Create account</h1>
 
     <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
     <form th:action="@{/signup}" method="post" th:object="${user}">
         <div class="mb-3">
-            <label class="form-label">Username</label>
+            <label class="form-label" th:text="#{form.label.username}">Username</label>
             <input class="form-control" type="text" th:field="*{username}"
                 th:class="${#fields.hasErrors('username')} ? 'form-control is-invalid' : 'form-control'" />
             <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}">
@@ -23,7 +23,7 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Password</label>
+            <label class="form-label" th:text="#{form.label.password}">Password</label>
             <input class="form-control" type="password" th:field="*{passwordHash}"
                 th:class="${#fields.hasErrors('passwordHash')} ? 'form-control is-invalid' : 'form-control'" />
             <div class="invalid-feedback" th:if="${#fields.hasErrors('passwordHash')}">
@@ -31,8 +31,8 @@
             </div>
         </div>
 
-        <button class="btn btn-primary" type="submit">Sign up</button>
-        <a class="btn btn-link" href="/login">Have an account? Sign in</a>
+        <button class="btn btn-primary" type="submit" th:text="#{button.signup}">Sign up</button>
+        <a class="btn btn-link" href="/login" th:text="#{message.haveaccount}">Have an account? Sign in</a>
     </form>
 </body>
 

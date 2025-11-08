@@ -5,35 +5,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
-  <title>Routelist</title>
+  <title th:attr="text=#{page.title.routelist}">Routelist</title>
 </head>
 
 <body style="margin: 20px;">
   <div th:replace="fragments :: siteHeader"></div>
   <div style="display:flex; justify-content: space-between; align-items:center;">
-    <h1>Routes</h1>
+    <h1 th:text="#{page.title.routes}">Routes</h1>
   </div>
 
   <table class="table table-striped">
     <tr>
-      <th>Name</th>
-      <th>Grade</th>
-      <th>Gym</th>
-      <th sec:authorize="isAuthenticated()"></th>
-      <th sec:authorize="isAuthenticated()"></th>
+      <th th:text="#{table.header.name}">Name</th>
+      <th th:text="#{table.header.grade}">Grade</th>
+      <th th:text="#{table.header.gym}">Gym</th>
+      <th sec:authorize="hasAuthority('ADMIN')"></th>
+      <th sec:authorize="hasAuthority('ADMIN')"></th>
     </tr>
     <tr th:each="route : ${routes}">
       <td th:text="${route.name}"></td>
       <td th:text="${route.grade}"></td>
       <td th:text="${route.gym.name}"></td>
-      <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/delete/{id}(id=${route.routeId})}"
-          class="btn btn-danger">Delete</a></td>
-      <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/edit/{id}(id=${route.routeId})}"
-          class="btn btn-primary">Edit</a></td>
+      <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/delete/{id}(id=${route.routeId})}" class="btn btn-danger"
+          th:text="#{button.delete}">Delete</a></td>
+      <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/edit/{id}(id=${route.routeId})}" class="btn btn-primary"
+          th:text="#{button.edit}">Edit</a></td>
     </tr>
     </tr>
   </table>
-  <a sec:authorize="isAuthenticated()" href="/addroute" class="btn btn-success">Add Route</a>
+  <a sec:authorize="isAuthenticated()" href="/addroute" class="btn btn-success" th:text="#{button.addroute}">Add
+    Route</a>
 </body>
 
 </html>
