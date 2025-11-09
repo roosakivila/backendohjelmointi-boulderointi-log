@@ -14,6 +14,8 @@
     <h1 th:text="#{page.title.routes}">Routes</h1>
   </div>
 
+  <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
+
   <table class="table table-striped">
     <tr>
       <th th:text="#{table.header.name}">Name</th>
@@ -30,7 +32,6 @@
           th:text="#{button.delete}">Delete</a></td>
       <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/edit/{id}(id=${route.routeId})}" class="btn btn-primary"
           th:text="#{button.edit}">Edit</a></td>
-    </tr>
     </tr>
   </table>
   <a sec:authorize="isAuthenticated()" href="/addroute" class="btn btn-success" th:text="#{button.addroute}">Add

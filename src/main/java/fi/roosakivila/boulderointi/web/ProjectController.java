@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -78,7 +79,9 @@ public class ProjectController {
 
     // Save project
     @PostMapping("/saveproject")
-    public String saveProject(@Valid Project project, BindingResult bindingResult, java.security.Principal principal) {
+    public String saveProject(@Valid @ModelAttribute("project") Project project, BindingResult bindingResult,
+            java.security.Principal principal,
+            Model model) {
         AppUser currentUser = appUserRepository.findByUsername(principal.getName());
 
         // If editing existing project, check ownership
@@ -91,15 +94,38 @@ public class ProjectController {
                     !existingProject.getAppuser().getUserId().equals(currentUser.getUserId())) {
                 return "redirect:projectlist";
             }
+
+            // Always preserve the route relationship when editing (route should not change)
+            if (project.getRoute() == null || project.getRoute().getRouteId() == null) {
+                project.setRoute(existingProject.getRoute());
+            }
         }
 
         project.setAppuser(currentUser);
         project.setDateModified(LocalDateTime.now());
         if (bindingResult.hasErrors()) {
             if (project.getProjectId() != null) {
-                return "editproject";
+                // Editing: Reload the project to ensure all relationships are loaded
+                Project reloadedProject = projectRepository.findById(project.getProjectId())
+                        .orElseThrow(
+                                () -> new IllegalArgumentException("Project not found: " + project.getProjectId()));
+                // Update the reloaded project with the form data
+                reloadedProject.setStatus(project.getStatus());
+                reloadedProject.setAttempts(project.getAttempts());
+                reloadedProject.setNotes(project.getNotes());
+                model.addAttribute("project", reloadedProject);
+            } else {
+                // Adding: Use the project from the form
+                model.addAttribute("project", project);
+                // Add attributes needed for addproject template
+                model.addAttribute("routes", routeRepository.findAll());
+                model.addAttribute("gyms", gymRepository.findAll());
+                model.addAttribute("selectedGymId", null);
             }
-            return "addproject";
+            // Common attributes for both templates
+            model.addAttribute("statuses", Status.values());
+            model.addAttribute("route", new Route());
+            return project.getProjectId() != null ? "editproject" : "addproject";
         } else {
             projectRepository.save(project);
             return "redirect:projectlist";

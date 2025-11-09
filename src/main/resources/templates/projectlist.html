@@ -29,8 +29,8 @@
         <th th:text="#{table.header.notes}">Notes</th>
         <th th:text="#{table.header.date}">Date</th>
         <th th:if="${isAdmin}" th:text="#{table.header.user}">User</th>
-        <th sec:authorize="hasAuthority('ADMIN')"></th>
-        <th sec:authorize="hasAuthority('ADMIN')"></th>
+        <th></th>
+        <th></th>
       </tr>
       <tr th:each="project : ${projects}">
         <td th:text="${project.route.name}"></td>
@@ -43,8 +43,8 @@
         <td th:if="${isAdmin}" th:text="${project.appuser.username}"></td>
         <td><a th:href="@{/deleteproject/{id}(id=${project.projectId})}" class="btn btn-danger"
             th:text="#{button.delete}">Delete</a></td>
-        <td><a th:href="@{/editproject/{id}(id=${project.projectId})}" class="btn btn-primary"
-            th:text="#{button.edit}">Edit</a></td>
+        <td><a sec:authorize="hasAuthority('USER')" th:href="@{/editproject/{id}(id=${project.projectId})}"
+            class="btn btn-primary" th:text="#{button.edit}">Edit</a></td>
       </tr>
       </tr>
     </table>

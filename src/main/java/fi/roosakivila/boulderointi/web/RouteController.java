@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import fi.roosakivila.boulderointi.domain.GymRepository;
+import fi.roosakivila.boulderointi.domain.ProjectRepository;
 import fi.roosakivila.boulderointi.domain.Route;
 import fi.roosakivila.boulderointi.domain.RouteRepository;
 import jakarta.validation.Valid;
@@ -14,16 +15,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class RouteController {
 
     private RouteRepository routeRepository;
     private GymRepository gymRepository;
+    private ProjectRepository projectRepository;
 
-    public RouteController(RouteRepository routeRepository, GymRepository gymRepository) {
+    public RouteController(RouteRepository routeRepository, GymRepository gymRepository,
+            ProjectRepository projectRepository) {
         this.routeRepository = routeRepository;
         this.gymRepository = gymRepository;
+        this.projectRepository = projectRepository;
     }
 
     // Redirect home to routelist
@@ -76,7 +81,11 @@ public class RouteController {
     // Delete route
     @GetMapping("/delete/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String deleteRoute(@PathVariable("id") Long id, Model model) {
+    public String deleteRoute(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+        if (!projectRepository.findByRoute_RouteId(id).isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "Cannot delete route — it is still used by projects.");
+            return "redirect:/routelist";
+        }
         routeRepository.deleteById(id);
         return "redirect:../routelist";
     }

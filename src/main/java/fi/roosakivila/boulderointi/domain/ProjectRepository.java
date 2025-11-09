@@ -8,4 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface ProjectRepository extends CrudRepository<Project, Long> {
     // findby tietynkäyttäjän projektit
     List<Project> findByAppuser_UserId(Long userId);
+
+    // findby tietyn reitin projektit
+    List<Project> findByRoute_RouteId(Long routeId);
 }

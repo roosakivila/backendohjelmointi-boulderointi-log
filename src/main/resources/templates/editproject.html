@@ -13,12 +13,14 @@
     <div class="container mt-5">
         <div class="card shadow-sm p-4">
             <h1 th:text="#{page.title.editproject}">Edit Project</h1>
-            <form th:object="${project}" th:action="@{../saveproject}" method="post">
+            <form th:object="${project}" th:action="@{/saveproject}" method="post">
+                <input type="hidden" th:field="*{projectId}" />
+                <input type="hidden" th:field="*{route}" />
                 <div class="mb-3">
-                    <input type="hidden" th:field="*{projectId}" />
                     <label class="form-label" th:text="#{form.label.routename}">Route:</label>
                     <p class="form-control-plaintext border-bottom pb-2"
-                        th:text="${project.route.name + ' (' + project.route.grade + ')'}"></p>
+                        th:text="${project.route != null ? (project.route.name + ' (' + project.route.grade + ')') : 'N/A'}">
+                    </p>
                 </div>
                 <div class="mb-3">
                     <label for="statuslist" class="form-label" th:text="#{form.label.status}">Status:</label>
@@ -49,7 +51,7 @@
                     </div>
                 </div>
 
-                <input type="submit" value="Save" class="btn btn-success" th:text="#{button.save}"></input>
+                <input type="submit" th:value="#{button.save}" class="btn btn-success"></input>
             </form>
         </div>
     </div>
